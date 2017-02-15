@@ -29,6 +29,7 @@ function connect(context) {
             var contentFromSockjs = JSON.parse(greeting.body).content;
             dados.push(contentFromSockjs);
 //            showGreeting(contentFromSockjs);
+            //
             
             chart.load({
             	json: {
