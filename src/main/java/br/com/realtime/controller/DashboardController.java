@@ -29,6 +29,8 @@ public class DashboardController {
 	@SendTo("/topic/greetings")
 	public Greeting greeting(HelloMessage message) throws Exception {
 		Thread.sleep(1000); // simulated delay
+		System.out.println(osMBean.getSystemLoadAverage());
+		System.out.println("teste");
 		return new Greeting("Hello, " + message.getName() + "!");
 	}
 	

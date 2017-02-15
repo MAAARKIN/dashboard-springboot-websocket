@@ -4,10 +4,17 @@
 <head>
     <title>Hello WebSocket</title>
     <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Load c3.css -->
+	<link href="/css/c3.css" rel="stylesheet" type="text/css">
+
+	<!-- Load d3.js and c3.js -->
+	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="/js/c3.min.js"></script>
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script src="/app.js"></script>
+    
 </head>
 
 <body>
@@ -54,6 +61,11 @@
     </div>
     </form>
 </div>
+
+<div id="chart">
+teste
+</div>
+
 </body>
 
 </html>

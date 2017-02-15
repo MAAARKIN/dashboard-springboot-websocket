@@ -1,5 +1,7 @@
 var stompClient = null;
 
+var chart = null;
+
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
@@ -12,15 +14,28 @@ function setConnected(connected) {
     $("#greetings").html("");
 }
 
-function connect() {
+function connect(context) {
+    
+    var dados = ["0", "0", "0", "0"];
+	
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/greetings', function (greeting) {
-            console.log(greeting);
-            showGreeting(JSON.parse(greeting.body).content);
+        	dados.shift();
+        	console.log(dados);
+            var contentFromSockjs = JSON.parse(greeting.body).content;
+            dados.push(contentFromSockjs);
+//            showGreeting(contentFromSockjs);
+            
+            chart.load({
+            	json: {
+            		osMXBean: dados,            		
+            	},
+            	duration: 1500
+            });
         });
     });
 }
@@ -42,14 +57,32 @@ function showGreeting(message) {
 }
 
 $(function () {
+	chart = c3.generate({
+	    bindto: '#chart',
+	    data: {
+	      columns: [
+	        ['osMXBean', "1.90771484375", "1.9150390625", "1.76123046875"]
+	      ]
+	    }
+	});
+	
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
+    $( "#connect" ).click(function() { connect(this); });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendName(); });
 });
 
 $(document).ready(function() {
-    console.log("rodou");
+//    console.log("rodou");
+//    var chart = c3.generate({
+//        bindto: '#chart',
+//        data: {
+//          columns: [
+//            ['osMXBean', "1.90771484375", "1.9150390625", "1.76123046875"]
+//          ]
+//        }
+//    });
+//    console.log("rodou FIM");
 });
